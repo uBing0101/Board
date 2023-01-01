@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.ofg">
+<th:block th:fragment="headerFragment">
+    <header>
+        <div>
+            <a href="/">게시판</a>
+        </div>
+        <div th:if="${session.userId == null}">
+            <a href="/user/login">로그인</a>
+        </div>
+        <div th:unless="${session.userId == null}">
+            [[${session.userId}]]님 로그인중 입니다
+            <a href="/user/logout" style="position: absolute;right:0;">로그아웃</a>
+        </div>
+    </header>
+</th:block>
+</html>

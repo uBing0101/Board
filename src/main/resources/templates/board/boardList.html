@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="layout/head :: headFragment"></th:block>
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<script>
+  $(document).ready(function(){
+    $("#btnWrite").click(function(){
+      location.href = "/board/write";
+    });
+    const btn = document.querySelector('a.action');
+    btn.removeAttribute('href');
+  });
+</script>
+<div class="container">
+  <h2>QNA</h2>
+  <form action="/board/list" method="post">
+    <select name="searchOption">
+      <option value="all" th:selected="${searchOption} == 'all'">제목+이름+내용</option>
+      <option value="writer" th:selected="${searchOption} == 'writer'">이름</option>
+      <option value="content" th:selected="${searchOption} == 'content'">내용</option>
+      <option value="title" th:selected="${searchOption} == 'title'">제목</option>
+    </select>
+    <input name="keyword" th:value="${keyword}">
+    <input type="submit" value="조회">
+    <th:block th:if="${session.userId != null}">
+      <button type="button" id="btnWrite">글쓰기</button>
+    <th:block>
+  </form>
+  [[${count}]]개의 게시물이 있습니다.
+  <table class="board_list">
+    <colgroup>
+      <col width="5%"/>
+      <col width="*"  />
+      <col width="15%"/>
+      <col width="15%"/>
+      <col width="20%"/>
+    </colgroup>
+    <thead>
+    <tr>
+      <th>글번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>조회수</th>
+      <th>작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr th:if="${#lists.size(list)} > 0" th:each="board : ${list}">
+        <td th:text="${board.bno}"></td>
+        <td><a th:href="@{/board/view(bno=${board.bno},curPage=${boardPager.curPage},searchOption=${searchOption},keyword=${keyword})}" th:text="${board.title}"></a></td>
+        <td th:text="${board.userName}"></td>
+        <td th:text="${board.viewcnt}"></td>
+        <td th:text="${#dates.format(board.regdate,'yyyy년 MM월 dd일 HH:mm:ss')}"></td>
+      </tr>
+      <tr th:unless="${#lists.size(list)} > 0">
+        <td colspan="5">조회 결과가 없습니다.</td>
+      </tr>
+
+      <tr th:if="${count gt 0}">
+        <td colspan="5">
+          <!-- **처음페이지로 이동 : 현재 페이지가 1보다 크면  [처음]하이퍼링크를 화면에 출력-->
+          <span th:if="${boardPager.curPage > 1}">
+            <a th:href="@{/board/list(curPage=1,searchOption=${searchOption},keyword=${keyword})}">[처음]</a>
+          </span>
+          <!-- **이전페이지 블록으로 이동 : 현재 페이지 블럭이 1보다 크면 [이전]하이퍼링크를 화면에 출력 -->
+          <span th:if="${boardPager.curBlock > 1}">
+            <a th:href="@{/board/list(curPage=${boardPager.prevPage},searchOption=${searchOption},keyword=${keyword})}">[이전]</a>
+          </span>
+          <!-- **하나의 블럭에서 반복문 수행 시작페이지부터 끝페이지까지 -->
+          <span th:each="pageing : ${#numbers.sequence(boardPager.blockBegin, boardPager.blockEnd)}">
+            <a th:href="@{/board/list(curPage=${pageing},searchOption=${searchOption},keyword=${keyword})}" th:classappend="${pageing == boardPager.curPage} ? active : ''" th:text="${pageing}">[[${num}]]</a>
+          </span>
+          <!-- **다음페이지 블록으로 이동 : 현재 페이지 블럭이 전체 페이지 블럭보다 작거나 같으면 [다음]하이퍼링크를 화면에 출력 -->
+          <span th:if="${boardPager.curBlock <= boardPager.totBlock}">
+            <a th:href="@{/board/list(curPage=${boardPager.nextPage},searchOption=${searchOption},keyword=${keyword})}">[다음]</a>
+          </span>
+          <!-- **끝페이지로 이동 : 현재 페이지가 전체 페이지보다 작거나 같으면 [끝]하이퍼링크를 화면에 출력 -->
+          <span th:if="${boardPager.curPage < boardPager.totPage}">
+            <a th:href="@{/board/list(curPage=${boardPager.totPage},searchOption=${searchOption},keyword=${keyword})}">[끝]</a>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="layout/head :: headFragment"></th:block>
+  <style>
+    .board_list > div > div{display: flex;margin:10px 0;}
+    .board_list > div > div span:first-child{width:52px;}
+    .board_list > div > div span:last-child{width:calc(100% - 52px);}
+    .board_list > div > div input{width:calc(100% - 52px);border:1px solid #ddd;padding:5px 10px;}
+    .board_list > div > div textarea{width:calc(100% - 52px);resize:none;height:180px;}
+  </style>
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<th:block th:replace="layout/sessionCheck"></th:block>
+<script>
+  $(document).ready(function(){
+    $("#btnUpdate").click(function(){
+      var title = $("#title").val();
+      var content = $("#content").val();
+      if(title == ""){
+        alert("제목을 입력하세요");
+        document.form1.title.focus();
+        return;
+      }
+      if(content == ""){
+        alert("내용을 입력하세요");
+        document.form1.content.focus();
+        return;
+      }
+      document.form1.action="/board/update"
+      document.form1.submit();
+
+    });
+  });
+</script>
+<div class="container">
+  <form method="post" name="form1">
+    <input type="hidden" name="bno" th:value="${data.bno}">
+    <input type="hidden" name="writer" th:value="${data.writer}">
+    <h2>게시글 수정</h2>
+    <div class="board_list">
+        <div th:if="${#lists.size(data)} > 0">
+          <div>
+            <span>작성일 : </span>
+            <span th:text="${#dates.format(data.regdate,'yyyy년 MM월 dd일 a hh:mm:ss')}">작성일</span>
+          </div>
+          <div>
+            <span>조회수 : </span>
+            <span th:text="${data.viewcnt}">조회수</span>
+          </div>
+          <div>
+            <span>제목 : </span>
+            <input name="title" id="title" th:value="${data.title}">
+          </div>
+          <div>
+            <span>내용</span>
+            <textarea style="border:1px solid #ddd;padding:10px;line-height:20px;" id="content" name="content">[[${data.content}]]</textarea>
+          </div>
+          <div>
+            <span>작성자</span>
+            <span th:text="${data.writer}">작성자</span>
+          </div>
+        </div>
+    </div>
+    <input type="button" value="수정완료" id="btnUpdate">
+    <input type="reset" value="수정취소">
+  </form>
+</div>
+</body>
+</html>

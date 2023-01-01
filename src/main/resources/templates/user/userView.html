@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="layout/head :: headFragment"></th:block>
+    <meta charset="UTF-8" />
+    <title>회원 상세목록</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script>
+        window.onload=function(){
+            const btnUpdate = document.getElementById("btnUpdate");
+            btnUpdate.addEventListener("click",function(){
+                if(confirm("수정 하시겠습니까?")){
+                    document.form1.action = "/user/update";
+                    document.form1.submit();
+                }
+            });
+            const btnDelete = document.getElementById("btnDelete");
+            btnDelete.addEventListener("click",function(){
+                if(confirm("삭제 하시겠습나까?")){
+                    document.form1.action = "/user/delete";
+                    document.form1.submit();
+                }
+            });
+        }
+    </script>
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<div class="container">
+    <h2>회원 상세목록</h2>
+
+    <form method="post" name="form1">
+        <table class="board_list">
+            <tr>
+                <td>아이디</td>
+                <td><input type="text" name="userId" th:value="${view.userId}" readonly style="border:none; background:transparent;text-align: center;"></td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type="password" name="userPw"></td>
+            </tr>
+            <tr>
+                <td>이름</td>
+                <td><input type="text" name="userName" th:value="${view.userName}" readonly style="border:none;background:transparent;text-align: center;"></td>
+            </tr>
+            <tr>
+                <td>닉네임</td>
+                <td><input type="text" name="userNickName" th:value="${view.userNickName}"></td>
+            </tr>
+            <tr>
+                <td>이메일</td>
+                <td><input type="text" name="userEmail" th:value="${view.userEmail}"></td>
+            </tr>
+            <tr>
+                <td>가입일</td>
+                <td th:text="${#dates.format(view.userRegDate,'yyyy년 MM월 dd일')}"></td>
+            </tr>
+            <tr th:if="${not #strings.isEmpty(view.userUpdateDate)}">
+                <td>수정일</td>
+                <td th:text="${#dates.format(view.userUpdateDate,'yyyy년 MM월 dd일')}"></td>
+            </tr>
+            <tr th:if="${#strings.isEmpty(view.userUpdateDate)}">
+                <td>수정일</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="button" value="수정" id="btnUpdate">
+                    <input type="button" value="삭제" id="btnDelete">
+                    <div style="color:red">[[${message}]]</div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</div>
+</body>
+</html>

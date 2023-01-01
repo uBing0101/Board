@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.board.mapper.BoardMapper">
+
+    <select id="listAll" resultType="com.example.board.domain.BoardDTO">
+        <include refid="pagingHeader"></include>
+            SELECT
+    --             bno, title, content, writer, regdate, viewcnt
+                bno, title, content, b.regdate, viewcnt, user_name
+
+            FROM
+                tb_board b, tb_user u
+            <include refid="search"></include>
+        <include refid="pagingFooter"></include>
+    </select>
+
+    <select id="countArticle" resultType="int">
+        SELECT COUNT(*) FROM tb_board b, tb_user u
+        <include refid="search"></include>
+    </select>
+
+    <sql id="search">
+        <choose>
+            <when test="searchOption == 'all'">
+                WHERE b.writer = u.user_id
+                AND
+                    (user_name like CONCAT('%',#{keyword},'%')
+                    OR content like CONCAT('%',#{keyword},'%')
+                    OR title like CONCAT('%',#{keyword},'%'))
+            </when>
+            <otherwise>
+                WHERE b.writer = u.user_id
+                AND ${searchOption} like CONCAT('%',#{keyword},'%')
+            </otherwise>
+        </choose>
+    </sql>
+
+    <sql id="pagingHeader">
+        select A.* FROM(
+    </sql>
+
+    <sql id="pagingFooter">
+        ) A
+    ORDER BY
+        bno desc, regdate desc
+    LIMIT #{start}, 10
+    </sql>
+
+    <insert id="create">
+        INSERT INTO tb_board
+            ( title, content, writer ,regdate)
+        VALUES
+            ( #{title}, #{content}, #{writer} ,NOW())
+    </insert>
+
+    <select id="read" resultType="com.example.board.domain.BoardDTO">
+        SELECT * FROM tb_board
+        WHERE bno = #{bno}
+    </select>
+
+    <update id="increaseViewcnt">
+        UPDATE tb_board SET viewcnt = viewcnt + 1
+        WHERE bno = #{bno}
+    </update>
+
+    <update id="update">
+        UPDATE tb_board
+        SET
+            title = #{title}, content = #{content}, writer = #{writer}
+        WHERE
+            bno = #{bno}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM tb_board
+        WHERE bno = #{bno}
+    </delete>
+</mapper>

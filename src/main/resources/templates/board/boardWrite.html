@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="layout/head :: headFragment"></th:block>
+  <style>
+    .board_list > div > div{display: flex;margin:10px 0;}
+    .board_list > div > div span:first-child{width:52px;}
+    .board_list > div > div span:last-child{width:calc(100% - 52px);}
+    .board_list > div > div input{width:calc(100% - 52px);border:1px solid #ddd;padding:5px 10px;}
+    .board_list > div > div textarea{width:calc(100% - 52px);resize:none;height:180px;}
+  </style>
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<th:block th:replace="layout/sessionCheck"></th:block>
+<script>
+  $(document).ready(function(){
+    $("#btnSave").click(function(){
+      let title = $("#title").val();
+      let content = $("#content").val();
+      if(title === ""){
+        alert("제목을 입력해주세요");
+        document.form1.title.focus();
+        return
+      }
+      if(content === "") {
+        alert("내용을 입력해주세요");
+        document.form1.content.focus();
+        return;
+      }
+      document.form1.submit();
+    });
+  });
+</script>
+<div class="container">
+  <form action="/board/insert" method="post" name="form1">
+    <h2>게시글 작성</h2>
+    <div class="board_list">
+      <div>
+        <div>
+          <span>제목 : </span>
+          <input name="title" type="text">
+        </div>
+        <div>
+          <span>내용</span>
+          <textarea style="border:1px solid #ddd;padding:10px;line-height:20px;" name="content"></textarea>
+        </div>
+<!--        <div>-->
+<!--          <span>작성자</span>-->
+<!--          <input type="text" name="writer">-->
+<!--        </div>-->
+      </div>
+    </div>
+    <button type="button" id="btnSave">확인</button>
+    <input type="reset" value="취소">
+  </form>
+</div>
+</body>
+</html>
