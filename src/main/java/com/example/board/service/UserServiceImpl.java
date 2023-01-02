@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
             UserDTO dto2 = viewUsers(dto);
             session.setAttribute("userId",dto2.getUserId());
             session.setAttribute("userName",dto2.getUserName());
+            session.setAttribute("userNickName",dto2.getUserNickName());
         }
         return result;
     }

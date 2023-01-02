@@ -13,7 +13,7 @@ public class ReplyServiceImpl implements ReplyService{
     private ReplyMapper replyMapper;
 
     @Override
-    public List<ReplyDTO> list(Integer bno) {
+    public List<ReplyDTO> list(int bno) {
         return replyMapper.list(bno);
     }
     // 댓글 작성
@@ -28,7 +28,7 @@ public class ReplyServiceImpl implements ReplyService{
     }
     // 댓글 삭제
     @Override
-    public void delete(Integer rno) {
+    public void delete(int rno) {
 
     }
 }

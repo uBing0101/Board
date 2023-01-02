@@ -9,7 +9,7 @@
             <a href="/user/login">로그인</a>
         </div>
         <div th:unless="${session.userId == null}">
-            [[${session.userId}]]님 로그인중 입니다
+            [[${session.userId}]]([[${session.userName}]])님 환영합니다
             <a href="/user/logout" style="position: absolute;right:0;">로그아웃</a>
         </div>
     </header>

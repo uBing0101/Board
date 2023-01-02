@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface ReplyService {
     // 댓글 목록
-    public List<ReplyDTO> list(Integer bno);
+    public List<ReplyDTO> list(int bno);
     // 댓글 입력
     public void create(ReplyDTO dto);
     // 댓글 수정
     public void update(ReplyDTO dto);
     // 댓글 삭제
-    public void delete(Integer rno);
+    public void delete(int rno);
 }

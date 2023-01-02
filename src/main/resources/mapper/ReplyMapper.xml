@@ -4,17 +4,24 @@
 <mapper namespace="com.example.board.mapper.ReplyMapper">
 
     <!-- 댓글 입력 -->
-    <insert id="insertReply">
-        INSERT INTO tb_reply (bno, replytext, replyer)
-        VALUES (#{bno}, #{replytext}, #{replyer})
+    <insert id="create">
+        INSERT INTO tb_reply (bno, reply_text, replyer, reg_date, user_name)
+        VALUES (#{bno}, #{replytext}, #{replyer}, NOW(), #{username})
     </insert>
 
     <!-- 댓글 목록 -->
-    <select id="listReply" resultType="com.example.board.domain.ReplyDTO">
-        SELECT rno, bno, replytext, replyer, user_name AS userName, r.regdate, r.updatedate
+    <select id="list" resultType="com.example.board.domain.ReplyDTO">
+        SELECT rno, bno, reply_text, replyer, r.user_name, r.reg_date, r.update_date
         FROM tb_reply r, tb_user u
         WHERE  r.replyer = u.user_id AND bno=#{bno}
-        ORDER BY rno
+        ORDER BY reg_date DESC
     </select>
+
+    <!-- 댓글 삭제 -->
+    <delete id="delete">
+
+    </delete>
+
+    <!-- 댓글 수정 -->
 
 </mapper>
