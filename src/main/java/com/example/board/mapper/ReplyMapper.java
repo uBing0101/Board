@@ -15,4 +15,6 @@ public interface ReplyMapper {
     void update(ReplyDTO dto);
     // 댓글 삭제
     void delete(Integer rno);
+    // 댓글 상세
+    ReplyDTO detail(int rno);
 }

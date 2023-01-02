@@ -11,26 +11,32 @@
 <script th:inline="javascript">
   /*<![CDATA[*/
   $(document).ready(function(){
-
-    // ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
+    const idKey = /*[[${dto.bno}]]*/;
     $("#btnReply").click(function(){
-      let replytext=$("#replytext").val();
-      let bno = /*[[${dto.bno}]]*/
-
-      let param="replytext="+replytext+"&bno="+bno;
+      replyJson(); // json 형식으로 입력
+    });
+    function replyJson(){
+      var replytext=$("#replytext").val();
+      var bno = idKey;
       $.ajax({
         type: "post",
-        url: "/reply/insert",
-        data: param,
+        url: "/reply/insertRest",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        dateType: "text",
+        data: JSON.stringify({
+          bno : bno,
+          replytext : replytext
+        }),
         success: function(){
           $("#replytext").val('');
           alert("댓글이 등록되었습니다.");
-          listReply2();
+          listReplyRest("1"); // Rest 방식
         }
       });
-    });
+    }
 
-    const idKey = /*[[${dto.bno}]]*/
     $("#btnDelete").click(function(){
       if(confirm("삭제하시겠습니까?")){
         window.location = "/board/delete?bno="+idKey;
@@ -51,30 +57,17 @@
       location.href="/board/list?"+curPage+"&"+searchOption+"&"+keyword;
     });
 
-    // RestController방식 (Json)
-    // **댓글 목록 (json)
-    function listReply2(){
+    function listReplyRest(){
       $.ajax({
         type: "get",
-        //contentType: "application/json", ==> 생략가능(RestController이기때문에 가능)
-        url: "/reply/listJson?bno="+idKey,
+        url: "/reply/list/"+idKey,
         success: function(result){
-          console.log(result);
-          let output = "<p style='font-size:18px;font-weight: 600;line-height:22px;margin-bottom:10px;'>댓글</p>";
-          output += "<table style='width:100%;'>";
-          for(let i in result){
-            output += "<tr style='margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid #ddd;display: block;'>";
-            output +=   "<td style='display: block;width:100%;'>" + result[i].username + " (" + result[i].regdate + ")<br>";
-            output +=   "<pre style='width:100%;white-space: pre-wrap;word-break: break-word;max-height:250px;overflow-y: auto;'>" + result[i].replytext + "</pre>";
-            output +=   "</td>";
-            output += "<tr>";
-          }
-          output += "</table>";
-          $("#listReply").html(output);
+          // responseText가 result에 저장됨.
+          $("#listReply").html(result);
         }
       });
     }
-    listReply2(); // ** json 리턴방식
+    listReplyRest("1");
   });
   /*]]>*/
 </script>

@@ -24,11 +24,16 @@ public class ReplyServiceImpl implements ReplyService{
     // 댓글 수정
     @Override
     public void update(ReplyDTO dto) {
-
+        replyMapper.update(dto);
     }
     // 댓글 삭제
     @Override
     public void delete(int rno) {
+        replyMapper.delete(rno);
+    }
 
+    @Override
+    public ReplyDTO detail(int rno) {
+        return replyMapper.detail(rno);
     }
 }

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="layout/head :: headFragment"></th:block>
+<body>
+<script>
+  let rnoNum = $("#reply_num").attr("class");
+  let bnoNum = $("#bnoNum").attr("class");
+
+  $("#btnReplyUpdate").click(function(){
+
+    let detailReplytext = $("#detailReplytext").val();
+    $.ajax({
+      type: "put",
+      url: "/reply/update/"+rnoNum,
+      headers:{
+        "Content-Type":"application/json"
+      },
+      data: JSON.stringify({
+        replytext : detailReplytext
+      }),
+      dataType:"text",
+      success: function(result){
+        if(result == "success"){
+          $("#modifyReply").css("visibility","hidden");
+          listReplyRest("1");
+        }
+      }
+    });
+  });
+
+  $("#btnReplyClose").click(function(){
+    $("#modifyReply").css("visibility", "hidden");
+  });
+
+  $("#btnReplyDelete").click(function(){
+    if(confirm("삭제하시겠습니까?")){
+      $.ajax({
+        type: "delete",
+        url: "/reply/delete/"+rnoNum,
+        success: function(result){
+          if(result == "success"){
+            alert("삭제되었습니다.");
+            $("#modifyReply").css("visibility", "hidden");
+            listReplyRest("1");
+          }
+        }
+      });
+    }
+  });
+
+  function listReplyRest(){
+    $.ajax({
+      type: "get",
+      url: "/reply/list/"+bnoNum,
+      success: function(result){
+        // responseText가 result에 저장됨.
+        $("#listReply").html(result);
+      }
+    });
+  }
+</script>
+
+<input type="hidden" th:class="${dto.bno}" id="bnoNum">
+<p th:class="${dto.rno}" id="reply_num">댓글 번호 : [[${dto.rno}]]</p>
+<textarea id="detailReplytext" rows="5" cols="82">[[${dto.replytext}]]</textarea>
+<div style="text-align: center;">
+  <!-- 본인 댓글만 수정, 삭제가 가능하도록 처리 -->
+  <div th:if="${session.userId == dto.replyer}">
+    <button type="button" id="btnReplyUpdate" >수정</button>
+    <button type="button" id="btnReplyDelete" >삭제</button>
+  </div>
+  <button type="button" id="btnReplyClose" >닫기</button>
+</div>
+</body>
+</html>

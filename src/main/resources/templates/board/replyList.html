@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="layout/head :: headFragment"></th:block>
+<script>
+  // **댓글 수정화면 생성 함수
+  function showReplyModify(rno){
+    $.ajax({
+      type: "get",
+      url: "/reply/detail/"+rno,
+      success: function(result){
+        $("#modifyReply").html(result);
+        // 태그.css("속성", "값")
+        $("#modifyReply").css("visibility", "visible");
+      }
+    })
+  }
+</script>
+<body>
+  <table>
+    <th:block th:each="list : ${list}">
+      <tr>
+        <td>
+          <div>
+            <span th:text="${list.username}"></span>
+            <span th:text="${list.regdate}"></span>
+          </div>
+          <div>
+            <pre th:text="${list.replytext}" style='width:100%;white-space: pre-wrap;word-break: break-word;max-height:250px;overflow-y: auto;'></pre>
+          </div>
+          <div th:if="${session.userId == list.replyer}">
+            <input type="button" id="btnModify" value="수정" th:onclick="|showReplyModify('${list.rno}')|">
+          </div>
+        </td>
+      </tr>
+    </th:block>
+  </table>
+  <div id="modifyReply"></div>
+</body>
+</html>

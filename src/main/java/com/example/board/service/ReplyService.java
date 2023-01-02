@@ -14,4 +14,6 @@ public interface ReplyService {
     public void update(ReplyDTO dto);
     // 댓글 삭제
     public void delete(int rno);
+    // 댓글 상세보기
+    public ReplyDTO detail(int rno);
 }

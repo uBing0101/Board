@@ -19,9 +19,20 @@
 
     <!-- 댓글 삭제 -->
     <delete id="delete">
-
+        DELETE FROM tb_reply WHERE rno = #{rno}
     </delete>
 
     <!-- 댓글 수정 -->
+    <update id="update">
+        UPDATE tb_reply
+        SET reply_text = #{replytext}
+        WHERE rno = #{rno}
+    </update>
 
+    <!-- 댓글 상세 -->
+    <select id="detail" resultType="com.example.board.domain.ReplyDTO">
+        SELECT rno, bno, reply_text, replyer, reg_date, update_date
+        FROM tb_reply
+        WHERE rno = #{rno}
+    </select>
 </mapper>

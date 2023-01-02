@@ -8,7 +8,6 @@
             SELECT
     --             bno, title, content, writer, regdate, viewcnt
                 bno, title, content, b.regdate, viewcnt, user_name
-
             FROM
                 tb_board b, tb_user u
             <include refid="search"></include>
