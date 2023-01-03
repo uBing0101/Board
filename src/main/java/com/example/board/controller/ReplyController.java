@@ -54,14 +54,6 @@ public class ReplyController {
         return list;
     }
 
-//    @RequestMapping(value="/list/{bno}", method=RequestMethod.GET)
-//    public ModelAndView replyList(@PathVariable("bno") int bno, ModelAndView mav){
-//        List<ReplyDTO> list = replyService.list(bno);
-//        mav.setViewName("/board/replyList");
-//        mav.addObject("list", list);
-//        return mav;
-//    }
-
     @RequestMapping(value="/list/{bno}", method=RequestMethod.GET)
     public ModelAndView replyList(@PathVariable("bno") int bno, ModelAndView mv){
         List<ReplyDTO> list = replyService.list(bno);
