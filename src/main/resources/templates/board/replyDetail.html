@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="layout/head :: headFragment"></th:block>
 <body>
+<style>
+  .reply-update-wrap{position: fixed;left:0;right:0;bottom:0;background:#fff;padding:40px 0;box-shadow: 0 -3px 6px rgba(0,0,0,.1);}
+</style>
 <script>
   var rnoNum = $("#reply_num").attr("class");
   var bnoNum = $("#bnoNum").attr("class");
@@ -60,16 +63,19 @@
   }
 </script>
 
-<input type="hidden" th:class="${dto.bno}" id="bnoNum">
-<p th:class="${dto.rno}" id="reply_num">댓글 번호 : [[${dto.rno}]]</p>
-<textarea id="detailReplytext" rows="5" cols="82" style="width:100%;">[[${dto.replytext}]]</textarea>
-<div style="text-align: center;">
-  <!-- 본인 댓글만 수정, 삭제가 가능하도록 처리 -->
-  <div th:if="${session.userId == dto.replyer}">
-    <button type="button" id="btnReplyUpdate" >수정</button>
-    <button type="button" id="btnReplyDelete" >삭제</button>
+<div class="reply-update-wrap" sytle="width:100%;">
+  <input type="hidden" th:class="${dto.bno}" id="bnoNum">
+  <p th:class="${dto.rno}" id="reply_num" style="width:1024px;margin:0 auto 10px;">댓글 번호 : [[${dto.rno}]]</p>
+  <textarea id="detailReplytext" rows="5" cols="82" style="width:1024px;margin:0 auto;display: block;">[[${dto.replytext}]]</textarea>
+  <div style="text-align: center;">
+    <!-- 본인 댓글만 수정, 삭제가 가능하도록 처리 -->
+    <div th:if="${session.userId == dto.replyer}" style="margin:20px 0 10px;">
+      <button type="button" id="btnReplyUpdate" >수정</button>
+      <button type="button" id="btnReplyDelete" >삭제</button>
+    </div>
+    <button type="button" id="btnReplyClose" >닫기</button>
   </div>
-  <button type="button" id="btnReplyClose" >닫기</button>
 </div>
+
 </body>
 </html>
