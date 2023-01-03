@@ -3,8 +3,8 @@
 <th:block th:replace="layout/head :: headFragment"></th:block>
 <body>
 <script>
-  let rnoNum = $("#reply_num").attr("class");
-  let bnoNum = $("#bnoNum").attr("class");
+  var rnoNum = $("#reply_num").attr("class");
+  var bnoNum = $("#bnoNum").attr("class");
 
   $("#btnReplyUpdate").click(function(){
 
@@ -62,7 +62,7 @@
 
 <input type="hidden" th:class="${dto.bno}" id="bnoNum">
 <p th:class="${dto.rno}" id="reply_num">댓글 번호 : [[${dto.rno}]]</p>
-<textarea id="detailReplytext" rows="5" cols="82">[[${dto.replytext}]]</textarea>
+<textarea id="detailReplytext" rows="5" cols="82" style="width:100%;">[[${dto.replytext}]]</textarea>
 <div style="text-align: center;">
   <!-- 본인 댓글만 수정, 삭제가 가능하도록 처리 -->
   <div th:if="${session.userId == dto.replyer}">

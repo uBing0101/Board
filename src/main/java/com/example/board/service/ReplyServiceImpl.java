@@ -13,14 +13,10 @@ public class ReplyServiceImpl implements ReplyService{
     private ReplyMapper replyMapper;
 
     @Override
-    public List<ReplyDTO> list(int bno) {
-        return replyMapper.list(bno);
-    }
+    public List<ReplyDTO> list(int bno) { return replyMapper.list(bno); }
     // 댓글 작성
     @Override
-    public void create(ReplyDTO dto) {
-        replyMapper.create(dto);
-    }
+    public void create(ReplyDTO dto) { replyMapper.create(dto); }
     // 댓글 수정
     @Override
     public void update(ReplyDTO dto) {
@@ -31,7 +27,7 @@ public class ReplyServiceImpl implements ReplyService{
     public void delete(int rno) {
         replyMapper.delete(rno);
     }
-
+    //댓글 상세
     @Override
     public ReplyDTO detail(int rno) {
         return replyMapper.detail(rno);

@@ -25,7 +25,7 @@
     <!-- 댓글 수정 -->
     <update id="update">
         UPDATE tb_reply
-        SET reply_text = #{replytext}
+        SET reply_text = #{replytext} , update_date = NOW()
         WHERE rno = #{rno}
     </update>
 

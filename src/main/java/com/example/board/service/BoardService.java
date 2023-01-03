@@ -18,7 +18,7 @@ public interface BoardService {
     List<BoardDTO> listAll(int start, int end, String searchOption, String keyword) throws Exception;
     //게시글 조회
     void increaseViewcnt(int bno, HttpSession session) throws Exception;
-    // 게시글 레코드 갯수 메서드 추가
+    // 게시글 레코드 갯수
     int countArticle(String searchOption, String keyword) throws Exception;
 
 }

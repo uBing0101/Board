@@ -16,16 +16,16 @@
   }
 </script>
 <body>
-  <table>
+  <table style="width:100%;">
     <th:block th:each="list : ${list}">
-      <tr>
+      <tr style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #ddd;display: block;">
         <td>
           <div>
             <span th:text="${list.username}"></span>
             <span th:text="${#dates.format(list.regdate,'yyyy년 MM월 dd일 a hh:mm:ss')}" style="font-size:12px;line-height:16px;"></span>
           </div>
           <div>
-            <pre th:text="${list.replytext}" style='width:100%;white-space: pre-wrap;word-break: break-word;max-height:250px;overflow-y: auto;'></pre>
+            <pre th:text="${list.replytext}" style='width:100%;white-space: pre-wrap;word-break: break-word;max-height:180px;overflow-y: auto;font-size:14px;'></pre>
           </div>
           <div th:if="${session.userId == list.replyer}">
             <input type="button" id="btnModify" value="수정" th:onclick="|showReplyModify('${list.rno}')|">

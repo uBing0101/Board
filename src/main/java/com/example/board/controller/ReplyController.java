@@ -25,7 +25,6 @@ public class ReplyController {
         String userNickName = (String) session.getAttribute("userNickName");
         dto.setReplyer(userId);
         dto.setUsername(userName);
-//        dto.setUsername(userNickName);
         replyService.create(dto);
     }
     @PostMapping("/insertRest")
@@ -61,12 +60,13 @@ public class ReplyController {
         mv.setViewName("/board/replyList");
         // 뷰에 전달할 데이터 지정
         mv.addObject("list", list);
-        // replyList.jsp로 포워딩
+        // replyList
         return mv;
     }
 
     // 댓글 삭제
-    //ResponseEntity 란 mav 와 달리 뷰 처리를 하지 않지만 데이터를 주고받을시 http header,body 에 메시와 , 상태코드를 리턴해줌
+    //ResponseEntity mav 와 달리 뷰 처리를 하지 않지만 데이터를 주고받을시 http header,body 에 메세지 , 상태코드를 리턴해줌
+    //PathVariable - RequestParam 데이터를 받아와 뿌려주는 방식의 차이 path 는 http url 에 데이터 전송 가능
     @RequestMapping(value="/delete/{rno}")
     public ResponseEntity<String> Delete(@PathVariable("rno") int rno) {
         ResponseEntity<String> entity = null;

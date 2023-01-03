@@ -14,5 +14,4 @@ public class BoardDTO {
     private int viewcnt;        // 게시글 조회수
     private String userName;    // 게시글 회원 이름 = 게시글 작성자
     private int recnt;          // 게시글 댓글의 수 추가
-
 }

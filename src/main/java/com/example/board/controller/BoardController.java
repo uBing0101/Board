@@ -18,11 +18,6 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    //게시글 목록
-//    @GetMapping({"/","/board/list"})
-//    public ModelAndView list() throws Exception {
-//        return new ModelAndView("/board/boardList").addObject("list",boardService.listAll());
-//    }
     @RequestMapping({"/","/board/list"})
     public ModelAndView list(
             @RequestParam(defaultValue="title") String searchOption,

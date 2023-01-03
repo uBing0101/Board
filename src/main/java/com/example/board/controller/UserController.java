@@ -49,7 +49,6 @@ public class UserController {
         return mv;
     }
 
-
     //회원목록
     @GetMapping("/user/list")
     public ModelAndView userList() {
