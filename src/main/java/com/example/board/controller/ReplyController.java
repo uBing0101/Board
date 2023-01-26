@@ -18,15 +18,15 @@ public class ReplyController {
     ReplyService replyService;
 
     // 댓글 입력
-    @PostMapping("/insert")
-    public void insert(@ModelAttribute ReplyDTO dto, HttpSession session){
-        String userId = (String) session.getAttribute("userId");
-        String userName = (String) session.getAttribute("userName");
-        String userNickName = (String) session.getAttribute("userNickName");
-        dto.setReplyer(userId);
-        dto.setUsername(userName);
-        replyService.create(dto);
-    }
+//    @PostMapping("/insert")
+//    public void insert(@ModelAttribute ReplyDTO dto, HttpSession session){
+//        String userId = (String) session.getAttribute("userId");
+//        String userName = (String) session.getAttribute("userName");
+//        String userNickName = (String) session.getAttribute("userNickName");
+//        dto.setReplyer(userId);
+//        dto.setUsername(userName);
+//        replyService.create(dto);
+//    }
     @PostMapping("/insertRest")
     public ResponseEntity<String> insertRest(@RequestBody ReplyDTO dto, HttpSession session){
         ResponseEntity<String> entity = null;

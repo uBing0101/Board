@@ -61,7 +61,7 @@ public class BoardController {
     @RequestMapping(value="/board/view", method=RequestMethod.GET)
     public ModelAndView view(@RequestParam int bno, HttpSession session) throws Exception {
         //조회수 증가
-        boardService.increaseViewcnt(bno,session);
+        boardService.increaseViewcnt(bno, session);
         return new ModelAndView("/board/boardView").addObject("dto",boardService.read(bno));
     }
     //게시글 수정화면
